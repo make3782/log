@@ -1,9 +1,12 @@
+// 实现log的console输出
+// win下暂时没有实现颜色输出
 package glogs
 
 import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"runtime"
 	"time"
 )
 
@@ -15,7 +18,7 @@ func init() {
 func NewConsole() Logger {
 	nLog := &consoleWrite{
 		lg:       newLogWriter(os.Stdout),
-		Colorful: false,
+		Colorful: true,
 	}
 	return nLog
 }
@@ -31,6 +34,9 @@ func (log *consoleWrite) Init(config string) error {
 		return nil
 	}
 	err := json.Unmarshal([]byte(config), log)
+	if runtime.GOOS == "windows" {
+		log.Colorful = false
+	}
 	return err
 }
 
@@ -56,10 +62,10 @@ func newBrush(colorString string) brush {
 
 var colors = []brush{
 	newBrush("1;37"),
-	newBrush("1;31"), // Error   red
-	newBrush("1;36"), // Alert   cyan
+	newBrush("1;34"), // Error   red
+	newBrush("1;35"), // Alert   cyan
 	newBrush("1;33"), // Warn    yellow
 	newBrush("1;32"), // Notice   green
-	newBrush("1;34"), // info  blue
-	newBrush("1;35"), // debug  magenta
+	newBrush("1;36"), // info  blue
+	newBrush("1;31"), // debug  magenta
 }

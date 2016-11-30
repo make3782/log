@@ -7,7 +7,7 @@ import (
 func TestNewLoger(t *testing.T) {
 	log := NewLogger()
 
-	ok := log.SetLogger("console", `{"color": true}`)
+	ok := log.SetLogger("console")
 	log.SetLevel(LevelDebug)
 	if ok != nil {
 		t.Errorf("get error: %v", ok)

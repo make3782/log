@@ -34,6 +34,7 @@ const (
 // 定义adapter name
 const (
 	AdapterConsole = "console"
+	AdapterFile    = "file"
 )
 
 type newLoggerFunc func() Logger
@@ -94,7 +95,7 @@ type logMsg struct {
 // @param channelLens int 用于异步时候的缓冲数量
 func NewLogger(channelLens ...int) *GLogger {
 	newLog := new(GLogger)
-	newLog.level = LevelInfo // 默认的日志级别为debug
+	newLog.level = LevelInfo // 默认的日志级别为Info
 	newLog.asyncFlag = false
 	return newLog
 }
@@ -177,6 +178,7 @@ func (gl *GLogger) start() {
 // 输出的公共方法
 ///////////////////////////////////////////////////////////
 
+// Panic 输出
 func (gl *GLogger) Panic(format string, v ...interface{}) {
 	if gl.level <= LevelPanic {
 		gl.writeMsg(LevelPanic, format, v...)
