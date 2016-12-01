@@ -20,3 +20,15 @@ func TestNewLoger(t *testing.T) {
 	log.Warn("wzx test6")
 	log.Panic("wzx test7")
 }
+
+func TestFileLogger(t *testing.T) {
+	log := NewLogger()
+	ok := log.SetLogger("file", `{"filename": "test.log", "maxlines":2}`)
+	if ok != nil {
+		t.Errorf("get error %v", ok)
+	}
+	log.Error("file test1")
+	log.Alert("file test2")
+	log.Alert("file test3")
+	log.Alert("file test4")
+}

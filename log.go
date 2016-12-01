@@ -103,7 +103,11 @@ func NewLogger(channelLens ...int) *GLogger {
 func (gl *GLogger) setLogger(adapterName string, configs ...string) error {
 	config := append(configs, "{}")[0]
 	// 判断是否已经注册过
-	// todo
+	for _, l := range gl.outputs {
+		if l.name == adapterName {
+			return fmt.Errorf("logs: duplicate adaptername %q", adapterName)
+		}
+	}
 
 	logFunc, ok := adapters[adapterName]
 	if !ok {
@@ -201,6 +205,10 @@ func (gl *GLogger) Warn(format string, v ...interface{}) {
 	if gl.level <= LevelWarn {
 		gl.writeMsg(LevelWarn, format, v...)
 	}
+}
+
+func (gl *GLogger) Warning(format string, v ...interface{}) {
+	gl.Warn(format, v...)
 }
 
 func (gl *GLogger) Notice(format string, v ...interface{}) {

@@ -11,7 +11,6 @@ import (
 )
 
 func init() {
-	fmt.Printf("get string: %v", AdapterConsole)
 	Register(AdapterConsole, NewConsole)
 }
 
